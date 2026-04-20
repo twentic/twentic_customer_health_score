@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* crm_customer_churn_rfm
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-23 00:00+0000\n"
+"PO-Revision-Date: 2026-03-23 00:00+0000\n"
+"Last-Translator: TwenTIC <info@twentic.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_form_rfm
+msgid "<span class=\"o_stat_text\">RFM Score %</span>"
+msgstr "<span class=\"o_stat_text\">Puntuació RFM %</span>"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_res_partner_filter_rfm
+msgid "At-Risk Customers"
+msgstr "Clients en risc"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_kanban_rfm
+msgid "At-risk customer"
+msgstr "Client en risc"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_partner__rfm_purchase_frequency
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_users__rfm_purchase_frequency
+msgid "Average number of days between consecutive posted invoices."
+msgstr "Nombre mitjà de dies entre factures publicades consecutives."
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_form_rfm
+msgid "Avg. Days Between Orders"
+msgstr "Dies mitjans entre comandes"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.actions.server,name:crm_customer_churn_rfm.ir_cron_rfm_compute_scores_ir_actions_server
+msgid "CRM Churn RFM: Compute Customer Health Scores"
+msgstr "CRM Churn RFM: Calcular puntuacions de salut de clients"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model,name:crm_customer_churn_rfm.model_res_partner
+msgid "Contact"
+msgstr "Contacte"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_partner__rfm_score
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_users__rfm_score
+msgid ""
+"Customer health score calculated from RFM analysis (0–100 %). Green ≥ 70 %, "
+"Orange 40–70 %, Red < 40 % (at risk)."
+msgstr ""
+"Puntuació de salut del client calculada mitjançant anàlisi RFM (0–100 %). "
+"Verd ≥ 70 %, Taronja 40–70 %, Vermell < 40 % (en risc)."
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_kanban_rfm
+msgid "Customer needs attention"
+msgstr "Client requereix atenció"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_res_partner_filter_rfm
+msgid "Customers Needing Attention"
+msgstr "Clients que necessiten atenció"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_partner__rfm_last_purchase_date
+#: model:ir.model.fields,help:crm_customer_churn_rfm.field_res_users__rfm_last_purchase_date
+msgid "Date of the most recent confirmed (posted) invoice."
+msgstr "Data de la factura confirmada (publicada) més recent."
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_form_rfm
+msgid "Health Metrics"
+msgstr "Mètriques de salut"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_form_rfm
+msgid "Health Score (%)"
+msgstr "Puntuació de salut (%)"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_res_partner_filter_rfm
+msgid "Healthy Customers"
+msgstr "Clients sans"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_kanban_rfm
+msgid "Healthy customer"
+msgstr "Client sa"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_tree_rfm
+msgid "Last Purchase"
+msgstr "Última compra"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_partner__rfm_last_purchase_date
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_users__rfm_last_purchase_date
+msgid "Last Purchase Date"
+msgstr "Data de l'última compra"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_partner__rfm_purchase_frequency
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_users__rfm_purchase_frequency
+msgid "Purchase Frequency (days)"
+msgstr "Freqüència de compra (dies)"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_form_rfm
+msgid "RFM Analysis"
+msgstr "Anàlisi RFM"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_res_partner_filter_rfm
+msgid "RFM Health Band"
+msgstr "Banda de salut RFM"
+
+#. module: crm_customer_churn_rfm
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_partner__rfm_score
+#: model:ir.model.fields,field_description:crm_customer_churn_rfm.field_res_users__rfm_score
+msgid "RFM Health Score (%)"
+msgstr "Puntuació de salut RFM (%)"
+
+#. module: crm_customer_churn_rfm
+#: model_terms:ir.ui.view,arch_db:crm_customer_churn_rfm.view_partner_tree_rfm
+msgid "RFM Score (%)"
+msgstr "Puntuació RFM (%)"

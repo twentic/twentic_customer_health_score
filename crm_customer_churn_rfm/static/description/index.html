@@ -1,0 +1,122 @@
+<section class="oe_container" style="font-family: 'Montserrat', sans-serif; padding: 20px 0;">
+    <div class="row align-items-center py-4">
+        <div class="col-12 text-center">
+            <h2 class="oe_slogan" style="color: #875A7B; font-weight: 700; margin-bottom: 20px; line-height: 1.3;">CRM Customer Churn RFM</h2>
+            <h3 class="oe_slogan" style="opacity: 0.8; line-height: 1.4;">Prevent customer churn with automatic RFM analysis — identify at-risk customers before they leave and trigger follow-up actions automatically.</h3>
+        </div>
+    </div>
+
+    <!-- Screenshot -->
+    <div class="row align-items-center my-4" style="background-color: #f8f9fa; border-radius: 10px; padding: 30px 20px;">
+        <div class="col-md-6">
+            <h4 style="color: #212529; font-weight: 600; margin-bottom: 15px;">1. Kanban View with Health Score Filters</h4>
+            <p style="color: #666; line-height: 1.6; margin-bottom: 0;">
+                The customer list gains dedicated <b>health score filters</b> (Healthy, At Risk, Critical) and a colour-coded kanban card showing the <b>RFM Health Score (%)</b> for each customer. A daily cron recomputes all scores automatically and creates a follow-up activity for the assigned salesperson when a score drops below <b>40&nbsp;%</b>.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img class="img-fluid border rounded shadow-sm" src="../img/churn.png" alt="RFM filters and kanban health score" style="max-height: 300px; width: auto;">
+        </div>
+    </div>
+
+    <!-- Formula block -->
+    <div class="row align-items-center my-4" style="padding: 30px 20px;">
+        <div class="col-12">
+            <h4 style="color: #212529; font-weight: 600; margin-bottom: 20px; text-align: center;">How the RFM Health Score is Calculated</h4>
+
+            <div style="background-color: #fff; border-left: 4px solid #875A7B; border-radius: 6px; padding: 20px 25px; margin-bottom: 25px; font-size: 1.05em;">
+                <p style="margin: 0; color: #333; font-weight: 600; font-size: 1.1em; text-align: center; letter-spacing: 0.02em;">
+                    RFM Score (%) &nbsp;=&nbsp;
+                    <span style="color: #875A7B;">0.6 &times; Recency Score</span>
+                    &nbsp;+&nbsp;
+                    <span style="color: #875A7B;">0.4 &times; Monetary Score</span>
+                </p>
+                <p style="margin: 10px 0 0; color: #888; font-size: 0.9em; text-align: center;">
+                    Requires at least <b>3 posted invoices</b> to produce a meaningful score. Both components range from 0 to 100.
+                </p>
+            </div>
+
+            <div class="row">
+                <!-- Recency -->
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div style="background-color: #e3f2fd; border-radius: 8px; padding: 20px 25px; height: 100%;">
+                        <p style="margin: 0 0 10px; font-weight: 700; color: #1565c0; font-size: 1em;">
+                            <i class="fa fa-calendar" style="margin-right: 6px;"></i>Recency Score (weight 60&nbsp;%)
+                        </p>
+                        <p style="margin: 0 0 8px; color: #555; line-height: 1.6; font-size: 0.9em;">
+                            Measures how recently the customer last purchased, relative to their own average purchase frequency (<b>F</b> = average days between invoices).
+                        </p>
+                        <ul style="margin: 0; padding-left: 18px; color: #555; font-size: 0.9em; line-height: 1.8;">
+                            <li>Days since last invoice <b>&le; F</b> &rarr; <b>100</b></li>
+                            <li>Between <b>F</b> and <b>2&times;F</b> &rarr; linear decay from 100 to 50</li>
+                            <li>Beyond <b>2&times;F</b> &rarr; continues to decay toward <b>0</b></li>
+                        </ul>
+                        <p style="margin: 10px 0 0; color: #888; font-size: 0.85em; font-style: italic;">
+                            A customer who buys every 30 days and last bought 60 days ago scores 50 on recency.
+                        </p>
+                    </div>
+                </div>
+                <!-- Monetary -->
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div style="background-color: #f3e5f5; border-radius: 8px; padding: 20px 25px; height: 100%;">
+                        <p style="margin: 0 0 10px; font-weight: 700; color: #6a1b9a; font-size: 1em;">
+                            <i class="fa fa-eur" style="margin-right: 6px;"></i>Monetary Score (weight 40&nbsp;%)
+                        </p>
+                        <p style="margin: 0 0 8px; color: #555; line-height: 1.6; font-size: 0.9em;">
+                            Compares the average of the <b>last 2 invoices</b> against the customer's overall historical average (<code>amount_untaxed</code>).
+                        </p>
+                        <p style="margin: 0 0 4px; color: #555; font-size: 0.9em; text-align: center; font-weight: 600;">
+                            score = (last-2 avg / overall avg) &times; 100
+                        </p>
+                        <p style="margin: 8px 0 0; color: #555; line-height: 1.6; font-size: 0.9em;">
+                            Capped between 0 and 100. An <b>alert flag</b> is also logged if the last 2 orders fall <b>&ge;&nbsp;40&nbsp;%</b> below the historical average, signalling a sudden spending drop.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health levels -->
+            <div style="background-color: #f8f9fa; border-radius: 8px; padding: 15px 20px; margin-top: 10px;">
+                <p style="margin: 0 0 12px; font-weight: 700; color: #212529;">
+                    <i class="fa fa-heartbeat" style="margin-right: 6px;"></i>Health Levels
+                </p>
+                <div class="row" style="margin: 0;">
+                    <div class="col-md-4 text-center" style="padding: 6px;">
+                        <span style="background:#28a745; color:#fff; border-radius:4px; padding:4px 14px; font-size:0.9em; font-weight:600;">Healthy</span>
+                        <p style="margin:6px 0 0; color:#555; font-size:0.9em;">&ge; 70 %</p>
+                    </div>
+                    <div class="col-md-4 text-center" style="padding: 6px;">
+                        <span style="background:#fd7e14; color:#fff; border-radius:4px; padding:4px 14px; font-size:0.9em; font-weight:600;">At Risk</span>
+                        <p style="margin:6px 0 0; color:#555; font-size:0.9em;">40 – 70 %</p>
+                    </div>
+                    <div class="col-md-4 text-center" style="padding: 6px;">
+                        <span style="background:#dc3545; color:#fff; border-radius:4px; padding:4px 14px; font-size:0.9em; font-weight:600;">Critical</span>
+                        <p style="margin:6px 0 0; color:#555; font-size:0.9em;">&lt; 40 % &rarr; auto activity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="row py-5 text-center">
+        <div class="col-12">
+            <h4 style="color: #875A7B; margin-bottom: 40px; font-weight: 700;">Key Features</h4>
+        </div>
+        <div class="col-md-4">
+            <i class="fa fa-line-chart fa-2x" style="color: #28a745; margin-bottom: 10px;"></i>
+            <p><b>Recency &amp; Monetary Analysis</b></p>
+        </div>
+        <div class="col-md-4">
+            <i class="fa fa-bell fa-2x" style="color: #28a745; margin-bottom: 10px;"></i>
+            <p><b>Automatic At-Risk Activities</b></p>
+        </div>
+        <div class="col-md-4">
+            <i class="fa fa-refresh fa-2x" style="color: #28a745; margin-bottom: 10px;"></i>
+            <p><b>Daily Cron Recomputation</b></p>
+        </div>
+        <div class="col-12 mt-5">
+            <a href="https://twentic.com/odoo" target="_blank"><img class="img-fluid border rounded shadow-sm" src="../img/page_banner.png" alt="Twentic Banner" style="width: 100%; max-width: 900px; height: auto;"></a>
+        </div>
+    </div>
+</section>

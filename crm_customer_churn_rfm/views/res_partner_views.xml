@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         LIST VIEW — add RFM score column with row-level colour coding
+         ============================================================ -->
+    <record id="view_partner_tree_rfm" model="ir.ui.view">
+        <field name="name">res.partner.list.rfm</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+
+            <!-- Colour the entire row based on the score -->
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">rfm_score &gt; 0 and rfm_score &lt; 40</attribute>
+                <attribute name="decoration-warning">rfm_score &gt;= 40 and rfm_score &lt; 70</attribute>
+                <attribute name="decoration-success">rfm_score &gt;= 70</attribute>
+            </xpath>
+
+            <!-- Add RFM score and last purchase date columns after country -->
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field
+                    name="rfm_score"
+                    string="RFM Score (%)"
+                    optional="show"
+                    readonly="1"
+                />
+                <field
+                    name="rfm_last_purchase_date"
+                    string="Last Purchase"
+                    optional="show"
+                    readonly="1"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ============================================================
+         KANBAN VIEW — add health badge inside the card footer
+         ============================================================ -->
+    <record id="view_partner_kanban_rfm" model="ir.ui.view">
+        <field name="name">res.partner.kanban.rfm</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Expose the fields so they are available inside the template -->
+            <xpath expr="//kanban/field[@name='active']" position="after">
+                <field name="rfm_score"/>
+                <field name="customer_rank"/>
+            </xpath>
+
+            <!-- Replace the empty footer div with the RFM health badge -->
+            <xpath expr="//t[@t-name='card']//footer/div" position="replace">
+                <div>
+                    <t t-if="record.customer_rank.raw_value &gt; 0 and record.rfm_score.raw_value &gt; 0">
+                        <span
+                            t-if="record.rfm_score.raw_value &lt; 40"
+                            class="badge rounded-pill text-bg-danger"
+                            title="At-risk customer"
+                        >
+                            <i class="fa fa-heartbeat me-1"/>
+                            <t t-esc="record.rfm_score.value"/>%
+                        </span>
+                        <span
+                            t-elif="record.rfm_score.raw_value &lt; 70"
+                            class="badge rounded-pill text-bg-warning"
+                            title="Customer needs attention"
+                        >
+                            <i class="fa fa-heartbeat me-1"/>
+                            <t t-esc="record.rfm_score.value"/>%
+                        </span>
+                        <span
+                            t-else=""
+                            class="badge rounded-pill text-bg-success"
+                            title="Healthy customer"
+                        >
+                            <i class="fa fa-heartbeat me-1"/>
+                            <t t-esc="record.rfm_score.value"/>%
+                        </span>
+                    </t>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ============================================================
+         SEARCH VIEW — predefined RFM filters
+         ============================================================ -->
+    <record id="view_res_partner_filter_rfm" model="ir.ui.view">
+        <field name="name">res.partner.search.rfm</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator/>
+                <filter
+                    string="At-Risk Customers"
+                    name="at_risk_customers"
+                    domain="[('rfm_score', '&gt;', 0), ('rfm_score', '&lt;', 40)]"
+                />
+                <filter
+                    string="Customers Needing Attention"
+                    name="customers_need_attention"
+                    domain="[('rfm_score', '&gt;=', 40), ('rfm_score', '&lt;', 70)]"
+                />
+                <filter
+                    string="Healthy Customers"
+                    name="healthy_customers"
+                    domain="[('rfm_score', '&gt;=', 70)]"
+                />
+            </xpath>
+
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter
+                    name="group_by_rfm_score"
+                    string="RFM Health Band"
+                    domain="[]"
+                    context="{'group_by': 'rfm_score'}"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ============================================================
+         FORM VIEW — smart button + RFM Analysis tab
+         ============================================================ -->
+    <record id="view_partner_form_rfm" model="ir.ui.view">
+        <field name="name">res.partner.form.rfm</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="action_compute_rfm_score"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-heartbeat"
+                    invisible="customer_rank == 0"
+                >
+                    <div class="o_stat_info">
+                        <field name="rfm_score" class="o_stat_value" readonly="1" widget="float" digits="[5,1]"/>
+                        <span class="o_stat_text">RFM Score %</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page
+                    string="RFM Analysis"
+                    name="rfm_analysis"
+                    invisible="customer_rank == 0"
+                >
+                    <group>
+                        <group string="Health Metrics">
+                            <field name="rfm_score" string="Health Score (%)" readonly="1"/>
+                            <field name="rfm_last_purchase_date" readonly="1"/>
+                            <field name="rfm_purchase_frequency" string="Avg. Days Between Orders" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
