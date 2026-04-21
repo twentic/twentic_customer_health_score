@@ -22,6 +22,7 @@
         'data/ir_cron.xml',
         'views/res_partner_views.xml',
     ],
+    'images': ['static/description/main_screenshot.png'],
     'installable': True,
     'application': False,
     'auto_install': False,
